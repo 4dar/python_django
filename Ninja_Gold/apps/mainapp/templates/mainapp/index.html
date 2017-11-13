@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ninja Gold</title>
+</head>
+<body>
+    <h3>Your gold: {{ request.session.total }}</h3>
+    <form action="/clear_gold">
+        <input type="submit" value="Clear Gold">
+    </form>
+    <div class="goldboxes" id="farm">
+        <h4>Farm</h4>
+        <p>(earns 10-20 gold)</p>
+        <form action="/process_gold/farm" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Farm">
+        </form>
+    </div>
+    <div class="goldboxes" id="cave">
+        <h4>Cave</h4>
+        <p>(earns 5-10 gold)</p>
+        <form action="/process_gold/cave" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Excavate">
+        </form>
+    </div>
+    <div class="goldboxes" id="house">
+        <h4>House</h4>
+        <p>(earns 2-5 gold)</p>
+        <form action="/process_gold/house" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Ransack">
+        </form>
+    </div>
+    <div class="goldboxes" id="casino">
+        <h4>Casino</h4>
+        <p>(earns/takes 0-50 gold)</p>
+        <form action="/process_gold/casino" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Gamble">
+        </form>
+    </div>
+    <fieldset>
+        <legend>Activity Log</legend>
+        {% for log in request.session.logs reversed %}
+                <p class='{{ log.class }}'>{{ log.message }}</p>
+            {% endfor %}
+    </fieldset>
+</body>
+</html>
